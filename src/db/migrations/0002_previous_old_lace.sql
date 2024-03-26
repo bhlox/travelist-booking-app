@@ -1,0 +1,1 @@
+ALTER TABLE "bookings" ADD COLUMN "customer_name" varchar(100) NOT NULL;

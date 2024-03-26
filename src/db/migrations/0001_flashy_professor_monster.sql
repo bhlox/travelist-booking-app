@@ -1,0 +1,1 @@
+ALTER TABLE "bookings" RENAME COLUMN "selected_person" TO "person_in_charge";

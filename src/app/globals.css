@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Your default theme */
+  --background: #f7fafc;
+  --foreground: black;
+}
+
+.react-datepicker__header {
+  background-color: #dadddf !important;
+}
+
+.react-datepicker__current-month,
+.react-datepicker-time__header {
+  color: black !important;
+}
+
+.dark {
+  --background: #1a202c;
+  --foreground: #f7fafc;
+}
+
+.dark .react-datepicker__header {
+  background-color: #1a202c !important;
+}
+
+.dark .react-datepicker__current-month,
+.dark .react-datepicker-time__header {
+  color: #f7fafc !important;
+}

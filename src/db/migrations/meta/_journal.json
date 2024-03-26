@@ -1,0 +1,41 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1709877422536,
+      "tag": "0000_tired_steve_rogers",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1709878034569,
+      "tag": "0001_flashy_professor_monster",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1710203274536,
+      "tag": "0002_previous_old_lace",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1710204902794,
+      "tag": "0003_nosy_sentinels",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1710205180010,
+      "tag": "0004_rainy_thunderbolt_ross",
+      "breakpoints": true
+    }
+  ]
+}

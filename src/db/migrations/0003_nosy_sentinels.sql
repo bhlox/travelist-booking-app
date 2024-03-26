@@ -1,0 +1,1 @@
+ALTER TABLE "bookings" ADD COLUMN "booked_at" timestamp DEFAULT now() NOT NULL;
