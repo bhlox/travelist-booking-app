@@ -1,6 +1,6 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { IBookingForm } from "@/lib/types";
+import { IBookingForm, IUpdateBookingForm } from "@/lib/types";
 import { cn } from "@/lib/utils/utils";
 import React from "react";
 import { UseFormRegister } from "react-hook-form";
@@ -9,7 +9,7 @@ export default function NameInput({
   register,
   errorMsg,
 }: {
-  register: UseFormRegister<IBookingForm>;
+  register: UseFormRegister<IBookingForm | IUpdateBookingForm>;
   errorMsg: string | undefined;
 }) {
   return (

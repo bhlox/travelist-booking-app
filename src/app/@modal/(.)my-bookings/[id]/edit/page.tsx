@@ -4,14 +4,10 @@ import { cookies } from "next/headers";
 import { decrypt } from "@/lib/utils/encrypt";
 import { redirect } from "next/navigation";
 import { getBooking } from "@/lib/actions/bookings";
+import { toDate } from "date-fns";
+import { getHandlers } from "@/lib/actions/handlers";
 
-async function MyBookingsModalPage({
-  params,
-  searchParams,
-}: {
-  params: { id: string };
-  searchParams: { [key: string]: string | string[] | undefined };
-}) {
+async function MyBookingsModalPage({ params }: { params: { id: string } }) {
   let phoneNumber = cookies().get("pn")?.value;
   if (phoneNumber) {
     phoneNumber = decrypt(phoneNumber);
@@ -25,9 +21,10 @@ async function MyBookingsModalPage({
       phoneNumber: phoneNumber,
     });
     if (!booking) {
-      redirect("/my-bookings");
+      throw new Error("no booking found");
     }
-    return <ModalMyBookingsEdit bookingToBeUpdated={booking} />;
+    const handlers = await getHandlers();
+    return <ModalMyBookingsEdit bookingToBeUpdated={booking} handlers={handlers} />;
   } catch (error) {
     console.log(error);
   }

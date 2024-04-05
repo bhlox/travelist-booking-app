@@ -1,5 +1,6 @@
 import BookingForm from "@/components/bookings/form/form";
 import { getBooking } from "@/lib/actions/bookings";
+import { getHandlers } from "@/lib/actions/handlers";
 import { decrypt } from "@/lib/utils/encrypt";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -27,15 +28,18 @@ export default async function MyBookingEditPage({
     if (!booking) {
       throw new Error("no booking found");
     }
+    const handlers = await getHandlers();
     return (
       <>
         <h2 className="text-center text-2xl md:text-4xl font-bold">
           Edit your booking
         </h2>
         <BookingForm
-          selectedPerson={booking.personInCharge}
+          handlerName={booking.handler.displayName}
+          handlerId={booking.handler.id}
           storedPhoneNumber={booking.phoneNumber}
           bookingToBeUpdated={booking}
+          handlers={handlers}
         />
       </>
     );

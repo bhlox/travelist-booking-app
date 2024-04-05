@@ -10,11 +10,13 @@ import {
 import { useRouter } from "next/navigation";
 
 export default function ModalBookings({
-  selectedPerson,
+  handlerName,
   phoneNumber,
+  handlerId,
 }: {
-  selectedPerson: string;
+  handlerName: string;
   phoneNumber: string | undefined;
+  handlerId: string;
 }) {
   const router = useRouter();
 
@@ -28,10 +30,11 @@ export default function ModalBookings({
         className="sm:max-w-md w-11/12 rounded-lg"
       >
         <DialogHeader>
-          <DialogTitle>Schedule a booking with {selectedPerson}</DialogTitle>
+          <DialogTitle>Schedule a booking with {handlerName}</DialogTitle>
         </DialogHeader>
         <BookingForm
-          selectedPerson={selectedPerson}
+          handlerId={handlerId}
+          handlerName={handlerName}
           storedPhoneNumber={phoneNumber}
           bookingToBeUpdated={undefined}
         />

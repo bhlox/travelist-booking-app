@@ -1,4 +1,6 @@
+import { addDays } from "date-fns";
 import dayjs from "dayjs";
+import { DateAfter, DateBefore, Matcher } from "react-day-picker";
 
 export const openingTimes = [
   "08:00",
@@ -13,8 +15,12 @@ export const openingTimes = [
   "17:00",
 ];
 
-export const defaultStartingDate = dayjs().add(1, "day").format("MM/DD/YYYY");
-
 export const personsInCharge = [{ name: "bhlox" }, { name: "second" }];
 
 export const startOfBookingTime = dayjs().unix();
+
+export const disableWeekends: Matcher = (date) => {
+  return date.getDay() === 0 || date.getDay() === 6;
+};
+
+export const validDays = {before: addDays(new Date(), 1), after: addDays(new Date(), 31) };

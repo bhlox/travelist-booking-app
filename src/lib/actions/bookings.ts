@@ -34,6 +34,7 @@ export const createBooking = async (booking: InsertBookings) => {
   // return { bookingId, didCreateCookie: storedPN ? false : true };
 };
 
+// #TODO handler here a type of string & {}. figure out why. Probably because of it having a type of text???
 export const getBooking = async ({
   bookingId,
   phoneNumber,
@@ -44,8 +45,28 @@ export const getBooking = async ({
   const data = await db.query.bookings.findFirst({
     where: (bookings, { eq }) =>
       and(eq(bookings.id, +bookingId), eq(bookings.phoneNumber, phoneNumber)),
+    with: {
+      handler: { columns: { displayName: true, id: true } },
+    },
   });
+
   return data;
+};
+
+export const getMyBookings = async ({
+  phoneNumber,
+}: {
+  phoneNumber: string | undefined;
+}) => {
+  const pn = phoneNumber;
+  if (!pn) {
+    return null;
+  }
+  const bookings = await db.query.bookings.findMany({
+    where: (bookings, { eq }) => eq(bookings.phoneNumber, pn),
+    with: { handler: { columns: { displayName: true, id: true } } },
+  });
+  return bookings.length ? bookings : null;
 };
 
 export const updateBooking = async ({
@@ -77,26 +98,8 @@ export const getBookedTimes = async ({
 }) => {
   const bookings = await db.query.bookings.findMany({
     where: (bookings, { eq }) =>
-      and(eq(bookings.personInCharge, person), eq(bookings.selectedDate, date)),
-    columns: { selectedTime: true, selectedDate: true },
+      and(eq(bookings.handler, person), eq(bookings.selectedDate, date)),
+    columns: { selectedTime: true },
   });
-  const mappedData = bookings.map((item) =>
-    dayjs(`${item.selectedDate} ${item.selectedTime}`).toDate()
-  );
-  return mappedData;
-};
-
-export const getMyBookings = async ({
-  phoneNumber,
-}: {
-  phoneNumber: string | undefined;
-}) => {
-  const pn = phoneNumber;
-  if (!pn) {
-    return null;
-  }
-  const bookings = await db.query.bookings.findMany({
-    where: (bookings, { eq }) => eq(bookings.phoneNumber, pn),
-  });
-  return bookings.length ? bookings : null;
+  return bookings.map((booking) => booking.selectedTime.slice(0, 5));
 };

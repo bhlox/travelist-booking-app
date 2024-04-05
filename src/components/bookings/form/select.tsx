@@ -11,29 +11,29 @@ import {
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { Control, Controller, UseFormSetValue } from "react-hook-form";
-import { IBookingForm } from "@/lib/types";
+import { IBookingForm, IUpdateBookingForm } from "@/lib/types";
 
 export default function SelectInput({
-  personInCharge,
+  handler,
   control,
   setValue,
 }: {
-  control: Control<IBookingForm, any>;
-  personInCharge: string;
-  setValue: UseFormSetValue<IBookingForm>;
+  control: Control<IUpdateBookingForm, any>;
+  handler: string;
+  setValue: UseFormSetValue<IUpdateBookingForm>;
 }) {
   return (
     <div className="flex flex-col gap-1">
-      <Label htmlFor="">Person in charge</Label>
+      <Label htmlFor="handlerId">Handler</Label>
       <Controller
         control={control}
-        name="personInCharge"
+        name="handlerId"
         render={({ field }) => (
           <Select
-            defaultValue={personInCharge}
+            defaultValue={handler} 
             onValueChange={(value) => {
               field.onChange(value);
-              setValue("selectedTime", undefined);
+              setValue("selectedTime", "");
             }}
           >
             <SelectTrigger className="w-[180px] border-gray-400 dark:border-gray-300 border-2">

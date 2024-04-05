@@ -1,12 +1,12 @@
 "use client";
+import MyBookingsCard from "@/components/my-bookings/card";
+import CustomPhoneInput from "@/components/phone-input";
+import Loader from "@/components/svg/loader";
+import { Button } from "@/components/ui/button";
 import { getMyBookings } from "@/lib/actions/bookings";
-import { SelectBookings } from "@/lib/types";
+import { SelectBookingsWithHandler } from "@/lib/types";
 import React, { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import CustomPhoneInput from "../phone-input";
-import { Button } from "../ui/button";
-import Loader from "../svg/loader";
-import MyBookingsCard from "./card";
 
 interface IPhoneForm {
   phoneNumber: string;
@@ -17,7 +17,7 @@ function ClientMyBookingsPage({
   bookings,
 }: {
   storedPhoneNumber: string | undefined;
-  bookings: SelectBookings[] | null;
+  bookings: SelectBookingsWithHandler[] | null;
 }) {
   const [currentBookings, setCurrentBookings] = useState(bookings);
   const {

@@ -13,6 +13,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import DeleteBookingBtn from "@/components/bookings/form/delete-btn";
 
 export default async function UpdateBookingPage({
   params,
@@ -34,10 +35,7 @@ export default async function UpdateBookingPage({
     if (!pn) {
       throw new Error("phone number not found");
     }
-    console.log({
-      bookingId: params.id,
-      phoneNumber: pn || (searchParams.phone as string),
-    });
+
     // #TODO this must be cached.
     const booking = await getBooking({
       bookingId: params.id,
@@ -50,14 +48,17 @@ export default async function UpdateBookingPage({
     return (
       <div className="pt-4 mx-auto max-w-lg space-y-8 p-4 sm:px-0">
         <Card className="border-black dark:border-gray-300">
-          <CardHeader>
-            <CardDescription>image here</CardDescription>
-            <CardTitle>{booking.customerName}</CardTitle>
+          <CardHeader className="flex flex-row gap-4 justify-between">
+            <div>
+              <CardDescription>image here</CardDescription>
+              <CardTitle>{booking.customerName}</CardTitle>
+            </div>
+            <DeleteBookingBtn booking={booking} />
           </CardHeader>
           <CardContent>
-            <p>{booking.personInCharge}</p>
-            <p>{booking.selectedDate}</p>
-            <p>{booking.selectedTime}</p>
+            <p>handler: {booking.handler.displayName}</p>
+            <p>date: {booking.selectedDate}</p>
+            <p>time: {booking.selectedTime}</p>
           </CardContent>
           <CardFooter>
             <Buts id={booking.id} phone={booking.phoneNumber} />

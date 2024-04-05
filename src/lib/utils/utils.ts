@@ -17,7 +17,7 @@ export function validateIfBookingValuesSame({
     phoneNumber: string;
     selectedDate: string;
     selectedTime: string;
-    personInCharge: string;
+    handler: string;
   };
 }) {
   const isDateSame = dayjs(ToBeCompared.selectedDate).isSame(
@@ -37,7 +37,7 @@ export function validateIfBookingValuesSame({
     ToBeCompared.customerName === bookingToBeUpdated?.customerName &&
     ToBeCompared.phoneNumber === bookingToBeUpdated?.phoneNumber &&
     isDateSame &&
-    ToBeCompared.personInCharge === bookingToBeUpdated?.personInCharge &&
+    ToBeCompared.handler === bookingToBeUpdated?.handler &&
     isTimeSame
   );
 }

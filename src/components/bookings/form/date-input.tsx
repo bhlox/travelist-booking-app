@@ -11,7 +11,20 @@ import {
 } from "react-hook-form";
 import DatePicker from "react-datepicker";
 import { Input } from "@/components/ui/input";
-import { defaultStartingDate } from "@/lib/constants";
+import {
+  disableWeekends,
+  validDays,
+} from "@/lib/constants";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils/utils";
+import { format } from "date-fns";
+import { CalendarIcon } from "lucide-react";
+import { Calendar } from "@/components/ui/calendar";
 
 // #BUG when updating booking, from picking a new date to switching back to previous selected date, time input is correct BUT useform is stating that there is no value defined.
 export default function DateInput({
@@ -28,17 +41,17 @@ export default function DateInput({
   control: Control<IBookingForm, any>;
 }) {
   const [open, setOpen] = useState(false);
-  const [count, { increment }] = useCounter(0, {
-    max: 1,
-  });
-  const date30DaysFromNow = dayjs().add(30, "day").toDate();
-  const withtin30DaySpan = (date: Date) => {
-    // if date is not within 30 day span adjust opacity of text
-    if (date > dayjs().add(30, "day").toDate() || date <= dayjs().toDate()) {
-      return "opacity-40 dark:text-white text-black cursor-not-allowed";
-    }
-    return "dark:text-white text-black dark:hover:bg-gray-700 hover:bg-gray-300 ";
-  };
+  // const [count, { increment }] = useCounter(0, {
+  //   max: 1,
+  // });
+  // const date30DaysFromNow = dayjs().add(30, "day").toDate();
+  // const withtin30DaySpan = (date: Date) => {
+  //   // if date is not within 30 day span adjust opacity of text
+  //   if (date > dayjs().add(30, "day").toDate() || date <= dayjs().toDate()) {
+  //     return "opacity-40 dark:text-white text-black cursor-not-allowed";
+  //   }
+  //   return "dark:text-white text-black dark:hover:bg-gray-700 hover:bg-gray-300 ";
+  // };
 
   return (
     <div className="flex flex-col gap-1">
@@ -48,55 +61,39 @@ export default function DateInput({
         name="selectedDate"
         rules={{ required: true }}
         render={({ field }) => (
-          <DatePicker
-            {...field}
-            showIcon
-            id="dateInput"
-            open={open}
-            // onBlur={() => setOpen(false)}
-            onFocus={() => setOpen(true)}
-            preventOpenOnFocus
-            closeOnScroll
-            customInput={<Input inputMode="none" />}
-            dropdownMode="select"
-            dateFormat="MM/d/yyyy"
-            minDate={dayjs(defaultStartingDate).toDate()}
-            maxDate={date30DaysFromNow}
-            selected={dayjs(field.value).toDate()}
-            timeIntervals={60}
-            onInputClick={() => {
-              count ? setOpen((c) => !c) : increment();
-            }}
-            onChange={(date) => {
-              if (date) {
-                field.onChange(dayjs(date).format("MM/DD/YYYY"));
-                setOpen(false);
-                if (
-                  previousSelectedDate &&
-                  dayjs(date).isSame(previousSelectedDate, "day")
-                ) {
-                  // reset(
-                  //   {
-                  //     personInCharge: "WTF",
-                  //     selectedTime: dayjs(
-                  //       `${previousSelectedDate} ${previousSelectedTime}`
-                  //     ).format("HH:mm"),
-                  //     selectedDate: previousSelectedDate,
-                  //   },
-                  //   { keepDefaultValues: true }
-                  // );
-                  return;
-                  // setValue("selectedTime", undefined);
-                }
-                setValue("selectedTime", undefined);
-              }
-            }}
-            calendarIconClassname="dark:fill-white fill-black"
-            calendarClassName="dark:bg-black bg-white dark:text-white text-black border border-slate-800 border-4"
-            weekDayClassName={() => "dark:text-white text-black"}
-            dayClassName={withtin30DaySpan}
-            className="text-black dark:bg-black dark:text-white border-2 text-center w-36 rounded border-gray-400 focus:border-black dark:border-gray-300"
-          />
+          <Popover open={open} onOpenChange={setOpen}>
+            <PopoverTrigger asChild>
+              <Button
+                variant={"outline"}
+                className={cn(
+                  "pl-3 text-left font-normal",
+                  !field.value && "text-muted-foreground"
+                )}
+              >
+                {field.value ? (
+                  format(field.value, "PPP")
+                ) : (
+                  <span>Pick a date</span>
+                )}
+                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" side="bottom" align="start">
+              <Calendar
+                mode="single"
+                selected={field.value}
+                onSelect={(date) => {
+                  field.onChange(date);
+                  setOpen(false);
+                  // form.resetField("startTime", {
+                  //   defaultValue: "",
+                  // });
+                  // form.resetField("endTime", { defaultValue: "" });
+                }}
+                disabled={[disableWeekends, validDays]}
+              />
+            </PopoverContent>
+          </Popover>
         )}
       />
     </div>

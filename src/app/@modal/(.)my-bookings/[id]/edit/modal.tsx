@@ -7,13 +7,18 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { SelectBookings } from "@/lib/types";
+import { SelectBookingsWithHandler } from "@/lib/types";
 import { useRouter } from "next/navigation";
 
 export default function ModalMyBookingsEdit({
   bookingToBeUpdated,
+  handlers,
 }: {
-  bookingToBeUpdated: SelectBookings;
+  bookingToBeUpdated: SelectBookingsWithHandler;
+  handlers: {
+    id: string;
+    displayName: string;
+  }[];
 }) {
   const router = useRouter();
   return (
@@ -24,13 +29,15 @@ export default function ModalMyBookingsEdit({
       >
         <DialogHeader>
           <DialogTitle>
-            Update your booking with {bookingToBeUpdated.personInCharge}
+            Update your booking with {bookingToBeUpdated.handler.displayName}
           </DialogTitle>
         </DialogHeader>
         <BookingForm
-          selectedPerson={bookingToBeUpdated.personInCharge}
+          handlerId={bookingToBeUpdated.handler.id}
+          handlerName={bookingToBeUpdated.handler.displayName}
           storedPhoneNumber={bookingToBeUpdated.phoneNumber}
           bookingToBeUpdated={bookingToBeUpdated}
+          handlers={handlers}
         />
       </DialogContent>
     </Dialog>
