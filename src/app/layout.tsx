@@ -6,7 +6,8 @@ import QueryProvider from "@/components/providers/queryprovider";
 import NextTopLoader from "nextjs-toploader";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Navbar from "@/components/navbar";
+import Navbar from "@/components/ui/navbar";
+import Footer from "@/components/footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -48,10 +49,11 @@ export default function RootLayout({
               toastClassName="dark:text-white text-black border-b-[6px] border-black dark:border-gray-300 dark:bg-black bg-gray-300 dark:bg-slate-900"
             />
             <Navbar />
-            <div className="min-h-[95dvh] h-full">
+            <div className="bg-gray-50 dark:bg-black">
               {modal}
               {children}
             </div>
+            <Footer />
           </ThemeProvider>
         </QueryProvider>
       </body>

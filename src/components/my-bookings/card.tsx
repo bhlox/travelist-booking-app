@@ -1,4 +1,4 @@
-import { SelectBookings, SelectBookingsWithHandler } from "@/lib/types";
+import { SelectBookingsWithHandler } from "@/lib/types";
 import React from "react";
 import {
   Card,
@@ -12,7 +12,6 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 import DeleteBookingBtn from "../bookings/form/delete-btn";
 
-// #TODO fix type
 export default function MyBookingsCard({
   booking,
 }: {
