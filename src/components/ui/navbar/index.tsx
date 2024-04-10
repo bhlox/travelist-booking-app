@@ -157,7 +157,7 @@ function MobileMenu({
           </AccordionItem>
         </Accordion>
         <div className="">
-          <Link href="/contact" className="text-xl">
+          <Link onClick={handleChange} href="/contact" className="text-xl">
             Contact
           </Link>
         </div>
