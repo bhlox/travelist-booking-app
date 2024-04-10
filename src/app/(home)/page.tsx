@@ -45,7 +45,7 @@ function HeroBanner() {
 
 function Section1() {
   return (
-    <section className=" bg-gradient-to-b from-gray-300 to-gray-50 dark:from-slate-950 ">
+    <section className=" bg-gradient-to-b from-gray-300 to-gray-50 dark:from-neutral-950 ">
       <div className="max-w-screen-2xl mx-auto px-4 py-16 md:py-24 flex flex-col md:flex-row gap-6 md:gap-16">
         <div className="space-y-4 md:w-3/4">
           <h4 className="text-5xl md:text-7xl font-bold text-balance capitalize max-w-lg">
@@ -82,7 +82,7 @@ function Section1() {
 
 function Section2() {
   return (
-    <section className="bg-gradient-to-b from-gray-50 to-gray-300 dark:from-black dark:to-slate-950">
+    <section className="bg-gradient-to-b from-gray-50 to-gray-300 dark:from-black dark:to-neutral-950">
       <div className="max-w-screen-2xl mx-auto px-4 py-16 md:py-24 space-y-12">
         <h3 className="text-5xl md:text-7xl font-bold text-balance capitalize">
           our value proposition
@@ -153,7 +153,7 @@ function Section2() {
 
 function ClientsSection() {
   return (
-    <section className="space-y-2 bg-gradient-to-t from-gray-50 to-gray-300 dark:from-black dark:to-slate-950">
+    <section className="space-y-2 bg-gradient-to-t from-gray-50 to-gray-300 dark:from-black dark:to-neutral-950">
       <div className="max-w-screen-2xl mx-auto px-4 py-16 md:py-24 space-y-3 text-center">
         <h3 className="text-5xl md:text-7xl font-bold text-balance capitalize">
           our clients

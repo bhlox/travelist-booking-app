@@ -1,17 +1,10 @@
 "use client";
-import { personsInCharge } from "@/lib/constants";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
+import { handlerProfileImageString } from "@/lib/utils/utils";
 
 function PersonList({
   handlers,
@@ -19,6 +12,8 @@ function PersonList({
   handlers: {
     id: string;
     displayName: string;
+    description: string | null;
+    profilePicture: string;
   }[];
 }) {
   return (
@@ -28,35 +23,51 @@ function PersonList({
           key={`person-${person.id}`}
           name={person.displayName}
           id={person.id}
+          description={person.description}
+          profilePicture={person.profilePicture}
         />
       ))}
     </div>
   );
 }
 
-function PersonCard({ name, id }: { name: string; id: string }) {
+function PersonCard({
+  name,
+  id,
+  description,
+  profilePicture,
+}: {
+  name: string;
+  id: string;
+  description: string | null;
+  profilePicture: string;
+}) {
+  const profPic = handlerProfileImageString(profilePicture);
   return (
     <div className="lg:px-2 p-2 w-full md:w-1/2 lg:w-1/4">
-      <Card className="border-black dark:border-gray-300">
-        <CardHeader>
-          <CardDescription>image here</CardDescription>
-          <CardTitle>{name}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates
-          cupiditate fugiat blanditiis.
-        </CardContent>
-        <CardFooter>
+      <div className="relative h-[32rem] w-full rounded-xl group overflow-hidden">
+        <Image
+          src={profPic}
+          alt={name}
+          fill
+          className="rounded-xl object-cover"
+        />
+        <div className="z-10 absolute block w-full bg-white rounded-t-3xl space-y-7 p-4 md:opacity-0 md:-bottom-40 md:group-hover:bottom-0 md:group-hover:opacity-100 transition-all duration-300 ease-in-out left-0 bottom-0 text-black">
+          <h4 className="text-xl md:text-3xl font-semibold ">{name}</h4>
+          <p>
+            {description ??
+              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Et maiores quam sequi!"}
+          </p>
           <Button
             asChild
-            className="block w-full text-center hover:-translate-y-1 transition-transform duration-200 ease-in-out"
+            className="block w-full text-center hover:bg-black dark:hover:bg-black hover:-translate-y-1 transition-transform duration-200 ease-in-out bg-black dark:bg-black text-white dark:text-white"
           >
             <Link scroll={false} href={{ pathname: `/booking/${id}` }}>
               Book
             </Link>
           </Button>
-        </CardFooter>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 }

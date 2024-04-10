@@ -23,4 +23,17 @@ export const disableWeekends: Matcher = (date) => {
   return date.getDay() === 0 || date.getDay() === 6;
 };
 
-export const validDays = {before: addDays(new Date(), 1), after: addDays(new Date(), 31) };
+export const validDays = {
+  before: addDays(new Date(), 1),
+  after: addDays(new Date(), 31),
+};
+
+export const defaultDbProfPicString = "/avatar_default.jpg" as const;
+
+export const reviewsData = [
+  { name: "asd", review: "asdasd" },
+  { name: "asd", review: "asdasd" },
+  { name: "asd", review: "asdasd" },
+  { name: "asd", review: "asdasd" },
+  { name: "asd", review: "asdasd" },
+];

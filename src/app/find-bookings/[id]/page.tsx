@@ -1,4 +1,4 @@
-import Buts from "@/components/my-bookings/buts";
+import Buts from "@/components/find-bookings/buts";
 import { Button } from "@/components/ui/button";
 import { getBooking } from "@/lib/actions/bookings";
 import { decrypt } from "@/lib/utils/encrypt";
@@ -68,6 +68,6 @@ export default async function UpdateBookingPage({
     );
   } catch (error) {
     console.log(error);
-    // redirect("/my-bookings");
+    // redirect("/find-bookings");
   }
 }

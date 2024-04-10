@@ -2,6 +2,7 @@ import clsx, { ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { SelectBookings } from "../types";
 import dayjs from "dayjs";
+import { defaultDbProfPicString } from "../constants";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -40,4 +41,10 @@ export function validateIfBookingValuesSame({
     ToBeCompared.handler === bookingToBeUpdated?.handler &&
     isTimeSame
   );
+}
+
+export function handlerProfileImageString(profilePicture: string) {
+  return profilePicture === defaultDbProfPicString
+    ? `/assets${defaultDbProfPicString}`
+    : profilePicture;
 }

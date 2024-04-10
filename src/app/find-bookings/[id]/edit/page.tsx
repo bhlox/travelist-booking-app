@@ -45,7 +45,7 @@ export default async function MyBookingEditPage({
     );
   } catch (error) {
     console.log(error);
-    redirect("my-bookings");
+    redirect("find-bookings");
     // redirect to 404 page
   }
 }

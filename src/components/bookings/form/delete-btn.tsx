@@ -16,18 +16,21 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { FaTrash } from "react-icons/fa";
+import { cn } from "@/lib/utils/utils";
 
 export default function DeleteBookingBtn({
   booking,
+  className,
 }: {
   booking: SelectBookingsWithHandler;
+  className?: string;
 }) {
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const { mutate, isPending } = useMutation({
     mutationFn: () => deleteBooking({ bookingId: booking.id }),
     onSuccess: () => {
-      router.replace("/my-bookings");
+      router.replace("/find-bookings");
       toast.success(
         <>
           <h3>Booking Cancelled</h3>
@@ -45,8 +48,12 @@ export default function DeleteBookingBtn({
   });
   return (
     <>
-      <button type="button" onClick={() => setOpen(true)} className="p-1">
-        <FaTrash className="text-gray-400 hover:text-gray-600" />
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        className={cn("text-gray-400 hover:text-gray-600", className)}
+      >
+        <FaTrash />
       </button>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent

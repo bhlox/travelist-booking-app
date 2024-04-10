@@ -26,13 +26,7 @@ import {
   BookingFormProps,
   IBookingForm,
   IUpdateBookingForm,
-  SelectBookingsWithHandler,
 } from "@/lib/types";
-import SelectInput from "./select";
-import NameInput from "./name-input";
-import DeleteBookingBtn from "./delete-btn";
-import TimeInput from "./time-input";
-import DateInput from "./date-input";
 import ToastContent from "@/components/ui/toast-content";
 import { format, isSameDay, lightFormat, toDate } from "date-fns";
 import { Label } from "@/components/ui/label";
@@ -49,7 +43,6 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
@@ -141,7 +134,7 @@ function BookingForm({
       if (phoneNumber !== bookingToBeUpdated?.phoneNumber) {
         createSecureCookiePN(phoneNumber);
       }
-      router.push(`/my-bookings/${bookingId}`);
+      router.push(`/find-bookings/${bookingId}`);
     } else {
       const bookingId = await createBooking({
         handler: handlerId,
@@ -156,7 +149,7 @@ function BookingForm({
           description={`${formattedDate} at ${selectedTime} under ${handlerName}`}
         />
       );
-      router.replace(`/my-bookings/${bookingId}`);
+      router.replace(`/find-bookings/${bookingId}`);
     }
   };
   const {
@@ -243,7 +236,7 @@ function BookingForm({
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
-                    {handlers.map((person) => (
+                    {handlers?.map((person) => (
                       <SelectItem key={`select-${person.id}`} value={person.id}>
                         {person.displayName}
                       </SelectItem>

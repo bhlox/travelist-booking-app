@@ -51,6 +51,10 @@ export const user = pgTable(
     testRole: text("test_role"),
     email: text("email").notNull(),
     emailVerified: boolean("email_verified").default(false),
+    description: text("description"),
+    profilePicture: text("profile_picture")
+      .default("/avatar_default.jpg")
+      .notNull(),
   },
   (table) => {
     return {
@@ -60,22 +64,11 @@ export const user = pgTable(
   }
 );
 
-export const bookingsRelations = relations(bookings, ({ one }) => ({
-  handler: one(user, {
-    fields: [bookings.handler],
-    references: [user.id],
-  }),
-}));
-
-export const usersRelations = relations(user, ({ many }) => ({
-  bookings: many(bookings),
-}));
-
 export const blockedSchedules = pgTable("blocked_schedules", {
   id: serial("id").primaryKey().notNull(),
   date: date("date").notNull(),
   timeRanges: json("time_ranges"),
-  type: text("type").$type<"day" | "time">().notNull(),
+  type: text("type").notNull(),
   personnel: text("personnel")
     .notNull()
     .references(() => user.id),
@@ -96,3 +89,14 @@ export const emailVerificationCodes = pgTable("email_verification_codes", {
     mode: "string",
   }).notNull(),
 });
+
+export const bookingsRelations = relations(bookings, ({ one }) => ({
+  handler: one(user, {
+    fields: [bookings.handler],
+    references: [user.id],
+  }),
+}));
+
+export const usersRelations = relations(user, ({ many }) => ({
+  bookings: many(bookings),
+}));

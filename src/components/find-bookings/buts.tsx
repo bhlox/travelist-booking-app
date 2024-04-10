@@ -12,7 +12,7 @@ export default function Buts({ id, phone }: { id: number; phone: string }) {
       <Link
         scroll={false}
         onClick={() => createSecureCookiePN(phone)}
-        href={`/my-bookings/${id}/edit`}
+        href={`/find-bookings/${id}/edit`}
       >
         Edit
       </Link>

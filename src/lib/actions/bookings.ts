@@ -29,7 +29,7 @@ export const createBooking = async (booking: InsertBookings) => {
   // if (!storedPN) {
   createSecureCookiePN(booking.phoneNumber);
   // }
-  revalidatePath("/my-bookings");
+  revalidatePath("/find-bookings");
   return bookingId;
   // return { bookingId, didCreateCookie: storedPN ? false : true };
 };
@@ -55,8 +55,10 @@ export const getBooking = async ({
 
 export const getMyBookings = async ({
   phoneNumber,
+  withPicture,
 }: {
   phoneNumber: string | undefined;
+  withPicture?: boolean;
 }) => {
   const pn = phoneNumber;
   if (!pn) {
@@ -64,7 +66,11 @@ export const getMyBookings = async ({
   }
   const bookings = await db.query.bookings.findMany({
     where: (bookings, { eq }) => eq(bookings.phoneNumber, pn),
-    with: { handler: { columns: { displayName: true, id: true } } },
+    with: {
+      handler: {
+        columns: { displayName: true, id: true, profilePicture: withPicture },
+      },
+    },
   });
   return bookings.length ? bookings : null;
 };
@@ -80,13 +86,13 @@ export const updateBooking = async ({
     .update(bookings)
     .set({ ...booking })
     .where(eq(bookings.id, +bookingId));
-  revalidatePath("/my-bookings");
-  revalidatePath(`/my-bookings/${bookingId}`);
+  revalidatePath("/find-bookings");
+  revalidatePath(`/find-bookings/${bookingId}`);
 };
 
 export const deleteBooking = async ({ bookingId }: { bookingId: number }) => {
   await db.delete(bookings).where(eq(bookings.id, bookingId));
-  revalidatePath("/my-bookings");
+  revalidatePath("/find-bookings");
 };
 
 export const getBookedTimes = async ({

@@ -7,6 +7,8 @@ export const factorType = pgEnum("factor_type", ['totp', 'webauthn'])
 export const factorStatus = pgEnum("factor_status", ['unverified', 'verified'])
 export const aalLevel = pgEnum("aal_level", ['aal1', 'aal2', 'aal3'])
 export const codeChallengeMethod = pgEnum("code_challenge_method", ['s256', 'plain'])
+export const equalityOp = pgEnum("equality_op", ['eq', 'neq', 'lt', 'lte', 'gt', 'gte', 'in'])
+export const action = pgEnum("action", ['INSERT', 'UPDATE', 'DELETE', 'TRUNCATE', 'ERROR'])
 
 
 export const bookings = pgTable("bookings", {
@@ -35,6 +37,8 @@ export const user = pgTable("user", {
 	testRole: text("test_role"),
 	email: text("email").notNull(),
 	emailVerified: boolean("email_verified").default(false),
+	description: text("description"),
+	profilePicture: text("profile_picture").default('/avatar_default.jpg').notNull(),
 },
 (table) => {
 	return {

@@ -10,7 +10,7 @@ async function MyBookingsPage() {
   if (phoneNumber) {
     phoneNumber = decrypt(phoneNumber);
   }
-  const bookings = await getMyBookings({ phoneNumber });
+  const bookings = await getMyBookings({ phoneNumber, withPicture: true });
   return (
     <ClientMyBookingsPage bookings={bookings} storedPhoneNumber={phoneNumber} />
   );

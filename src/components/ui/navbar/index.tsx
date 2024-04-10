@@ -148,7 +148,7 @@ function MobileMenu({
                   </Link>
                 </li>
                 <li>
-                  <Link onClick={handleChange} href="/my-bookings">
+                  <Link onClick={handleChange} href="/find-bookings">
                     find booking
                   </Link>
                 </li>
@@ -174,12 +174,12 @@ function Desktop() {
         <div className="flex items-center gap-16">
           <li>
             <Link
-              href="/my-bookings"
+              href="/find-bookings"
               className={cn(
                 "text-lg capitalize text-gray-600 dark:text-gray-300",
                 null,
                 {
-                  "text-purple-500": pathname === "/my-bookings",
+                  "text-purple-500": pathname === "/find-bookings",
                 }
               )}
             >

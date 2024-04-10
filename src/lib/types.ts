@@ -6,6 +6,7 @@ export type SelectBookingsWithHandler = SelectBookings & {
   handler: {
     displayName: string;
     id: string;
+    profilePicture?: string;
   };
 };
 export type InsertBookings = InferInsertModel<typeof bookings>;
@@ -30,16 +31,14 @@ export type IUpdateBookingForm = OverrideBookingId<IBookingForm> & {
 export type BookingFormProps = {
   storedPhoneNumber: string | undefined;
   handlerId: string;
-  bookingToBeUpdated: SelectBookingsWithHandler | undefined;
   handlerName: string;
-  handlers?: {
-    displayName: string;
-    id: string;
-  }[];
-} & {
-  bookingToBeUpdated: SelectBookingsWithHandler;
-  handlers: {
-    displayName: string;
-    id: string;
-  }[];
-};
+} & (
+  | {
+      bookingToBeUpdated: SelectBookingsWithHandler;
+      handlers: {
+        displayName: string;
+        id: string;
+      }[];
+    }
+  | { bookingToBeUpdated?: undefined; handlers?: undefined }
+);

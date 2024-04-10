@@ -36,7 +36,6 @@ export default function ModalBookings({
           handlerId={handlerId}
           handlerName={handlerName}
           storedPhoneNumber={phoneNumber}
-          bookingToBeUpdated={undefined}
         />
       </DialogContent>
     </Dialog>

@@ -1,7 +1,15 @@
 import BookingForm from "@/components/bookings/form/form";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+} from "@/components/ui/card";
 import { getHandler, getHandlers } from "@/lib/actions/handlers";
 import { decrypt } from "@/lib/utils/encrypt";
+import { ArrowLeft } from "lucide-react";
 import { cookies } from "next/headers";
+import Link from "next/link";
 import React from "react";
 
 export const dynamicParams = true;
@@ -23,16 +31,29 @@ async function BookingPersonPage({ params }: { params: { id: string } }) {
     throw new Error("handler not found");
   }
   return (
-    <div className="pt-16 mx-auto max-w-lg space-y-8">
-      <h3 className="text-xl md:text-3xl font-bold">
-        Schedule a booking with {handler.displayName}
-      </h3>
-      <BookingForm
-        handlerId={params.id}
-        handlerName={handler.displayName}
-        storedPhoneNumber={phoneNumber}
-        bookingToBeUpdated={undefined}
-      />
+    <div className="mx-auto max-w-lg space-y-8 min-h-[95dvh] grid place-items-center">
+      <Card>
+        <CardHeader>
+          <CardDescription>
+            <Link
+              href="/booking"
+              className="capitalize flex gap-2 items-center max-w-max"
+            >
+              <ArrowLeft /> back to bookings
+            </Link>
+          </CardDescription>
+          <h3 className="text-xl md:text-3xl font-bold">
+            Schedule a booking with {handler.displayName}
+          </h3>
+        </CardHeader>
+        <CardContent>
+          <BookingForm
+            handlerId={params.id}
+            handlerName={handler.displayName}
+            storedPhoneNumber={phoneNumber}
+          />
+        </CardContent>
+      </Card>
     </div>
   );
 }
