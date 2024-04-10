@@ -5,9 +5,8 @@ import Loader from "@/components/svg/loader";
 import { Button } from "@/components/ui/button";
 import { getMyBookings } from "@/lib/actions/bookings";
 import { SelectBookingsWithHandler } from "@/lib/types";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Separator } from "@/components/ui/separator";
 import {
   Card,
   CardContent,
@@ -20,34 +19,23 @@ interface IPhoneForm {
   phoneNumber: string;
 }
 
-function ClientMyBookingsPage({
-  storedPhoneNumber,
-  bookings,
-}: {
-  storedPhoneNumber: string | undefined;
-  bookings: SelectBookingsWithHandler[] | null;
-}) {
-  const [currentBookings, setCurrentBookings] = useState(bookings);
+export default function ClientFindBookingsPage() {
+  const [currentBookings, setCurrentBookings] = useState<
+    SelectBookingsWithHandler[]
+  >([]);
   const {
     handleSubmit,
     control,
-    formState: { errors: formErrors, isSubmitting, isSubmitSuccessful },
-  } = useForm<IPhoneForm>({
-    defaultValues: { phoneNumber: storedPhoneNumber },
-  });
+    formState: { errors: formErrors, isSubmitting, submitCount },
+  } = useForm<IPhoneForm>();
 
   const onSubmit: SubmitHandler<IPhoneForm> = async ({ phoneNumber: pn }) => {
-    const result: SelectBookingsWithHandler[] | null = await getMyBookings({
+    const result = await getMyBookings({
       phoneNumber: pn,
       withPicture: true,
     });
     setCurrentBookings(result);
   };
-
-  // removing code below will not make the modal's delete button not update the current state.
-  useEffect(() => {
-    setCurrentBookings(bookings);
-  }, [bookings]);
 
   return (
     <div className="relative min-h-[95dvh]">
@@ -66,7 +54,7 @@ function ClientMyBookingsPage({
                 <CustomPhoneInput
                   control={control}
                   name="phoneNumber"
-                  storedPhoneNumber={storedPhoneNumber}
+                  storedPhoneNumber={undefined}
                   errorMsg={formErrors.phoneNumber?.message}
                 />
                 {formErrors.phoneNumber?.message ? (
@@ -86,44 +74,21 @@ function ClientMyBookingsPage({
               </Button>
             </CardFooter>
           </Card>
-          {currentBookings ? (
+          {currentBookings.length ? (
             <div className="flex flex-wrap md:w-3/4">
               {currentBookings.map((booking) => (
                 <MyBookingsCard
                   key={`booking-${booking.id}`}
                   booking={booking}
-                />
-              ))}
-              {currentBookings.map((booking) => (
-                <MyBookingsCard
-                  key={`booking-${booking.id}`}
-                  booking={booking}
-                />
-              ))}
-              {currentBookings.map((booking) => (
-                <MyBookingsCard
-                  key={`booking-${booking.id}`}
-                  booking={booking}
-                />
-              ))}
-              {currentBookings.map((booking) => (
-                <MyBookingsCard
-                  key={`booking-${booking.id}`}
-                  booking={booking}
-                />
-              ))}
-              {currentBookings.map((booking) => (
-                <MyBookingsCard
-                  key={`booking-${booking.id}`}
-                  booking={booking}
+                  setCurrentBookings={setCurrentBookings}
                 />
               ))}
             </div>
-          ) : (
+          ) : submitCount ? (
             <h4 className="text-center text-2xl md:text-4xl font-bold capitalize">
               no bookings found
             </h4>
-          )}
+          ) : null}
         </div>
       </div>
     </div>
@@ -138,5 +103,3 @@ function BGGradient() {
     </div>
   );
 }
-
-export default ClientMyBookingsPage;

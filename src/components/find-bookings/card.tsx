@@ -15,9 +15,12 @@ import Image from "next/image";
 import { handlerProfileImageString } from "@/lib/utils/utils";
 
 export default function MyBookingsCard({
-  booking,
+  booking,setCurrentBookings
 }: {
   booking: SelectBookingsWithHandler;
+  setCurrentBookings: React.Dispatch<
+    React.SetStateAction<SelectBookingsWithHandler[]>
+  >;
 }) {
   const profPic = handlerProfileImageString(booking.handler.profilePicture!);
   return (
@@ -34,6 +37,7 @@ export default function MyBookingsCard({
           </div>
           <DeleteBookingBtn
             booking={booking}
+            setCurrentBookings={setCurrentBookings}
             className="absolute -right-2 -top-4 z-10 size-10 lg:size-6 bg-red-500 rounded-full text-sm grid place-items-center text-white hover:text-white/70"
           />
         </CardHeader>

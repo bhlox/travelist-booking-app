@@ -21,16 +21,20 @@ import { cn } from "@/lib/utils/utils";
 export default function DeleteBookingBtn({
   booking,
   className,
+  setCurrentBookings,
 }: {
   booking: SelectBookingsWithHandler;
   className?: string;
+  setCurrentBookings: React.Dispatch<
+    React.SetStateAction<SelectBookingsWithHandler[]>
+  >;
 }) {
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const { mutate, isPending } = useMutation({
     mutationFn: () => deleteBooking({ bookingId: booking.id }),
     onSuccess: () => {
-      router.replace("/find-bookings");
+      setCurrentBookings((prev) => prev.filter((b) => b.id !== booking.id));
       toast.success(
         <>
           <h3>Booking Cancelled</h3>

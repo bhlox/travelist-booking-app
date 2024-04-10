@@ -62,7 +62,7 @@ export const getMyBookings = async ({
 }) => {
   const pn = phoneNumber;
   if (!pn) {
-    return null;
+    return [];
   }
   const bookings = await db.query.bookings.findMany({
     where: (bookings, { eq }) => eq(bookings.phoneNumber, pn),
@@ -72,7 +72,7 @@ export const getMyBookings = async ({
       },
     },
   });
-  return bookings.length ? bookings : null;
+  return bookings.length ? bookings : [];
 };
 
 export const updateBooking = async ({

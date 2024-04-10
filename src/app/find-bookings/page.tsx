@@ -2,18 +2,12 @@ import { getMyBookings } from "@/lib/actions/bookings";
 import React from "react";
 import { cookies } from "next/headers";
 import { decrypt } from "@/lib/utils/encrypt";
-import { revalidatePath } from "next/cache";
-import ClientMyBookingsPage from "./client";
+import ClientFindBookingsPage from "./client";
 
-async function MyBookingsPage() {
+export default async function FindBookingsPage() {
   let phoneNumber = cookies().get("pn")?.value;
   if (phoneNumber) {
     phoneNumber = decrypt(phoneNumber);
   }
-  const bookings = await getMyBookings({ phoneNumber, withPicture: true });
-  return (
-    <ClientMyBookingsPage bookings={bookings} storedPhoneNumber={phoneNumber} />
-  );
+  return <ClientFindBookingsPage />;
 }
-
-export default MyBookingsPage;
