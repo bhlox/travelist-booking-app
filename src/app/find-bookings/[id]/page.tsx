@@ -3,6 +3,7 @@ import React from "react";
 import { SelectBookingsWithHandler } from "@/lib/types";
 import MyBookingsCard from "@/components/find-bookings/card";
 import BGGradient from "@/components/ui/bg-gradient";
+import { notFound } from "next/navigation";
 
 export default async function UpdateBookingPage({
   params,
@@ -18,7 +19,7 @@ export default async function UpdateBookingPage({
   });
   if (!booking) {
     console.error("booking not found");
-    throw new Error("booking not found");
+    notFound();
   }
   return (
     <div className="relative min-h-[95dvh] py-24 grid place-items-center">
