@@ -26,10 +26,10 @@ function HeroBanner() {
   return (
     <section className="relative min-h-[100dvh]">
       <Image
-        src="/assets/image 1.jpg"
+        src="/assets/hero 1.jpg"
         alt="hero"
         fill
-        className="object-cover"
+        className="object-cover brightness-[0.8] grayscale-[10%] dark:brightness-[0.6] dark:grayscale-[50%]"
       />
       <div className="grid place-items-center relative max-w-7xl mx-auto px-4 min-h-[100dvh] md:text-6xl font-bold text-4xl text-balance text-center">
         <div className="space-y-4">
