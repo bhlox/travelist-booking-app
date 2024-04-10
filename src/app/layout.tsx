@@ -49,7 +49,7 @@ export default function RootLayout({
               toastClassName="dark:text-white text-black border-b-[6px] border-black dark:border-gray-300 dark:bg-black bg-gray-300 dark:bg-neutral-900"
             />
             <Navbar />
-            <div className="bg-gray-50 dark:bg-black">
+            <div className="bg-gray-50 dark:bg-black min-h-[95dvh] h-full relative">
               {modal}
               {children}
             </div>

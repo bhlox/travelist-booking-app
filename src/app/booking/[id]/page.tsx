@@ -11,6 +11,7 @@ import { ArrowLeft } from "lucide-react";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import React from "react";
+import { notFound } from "next/navigation";
 
 export const dynamicParams = true;
 
@@ -28,7 +29,8 @@ async function BookingPersonPage({ params }: { params: { id: string } }) {
   }
   const handler = await getHandler(params.id);
   if (!handler) {
-    throw new Error("handler not found");
+    console.error("handler not found");
+    notFound();
   }
   return (
     <div className="mx-auto max-w-lg space-y-8 min-h-[95dvh] grid place-items-center">
