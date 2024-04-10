@@ -8,6 +8,7 @@ import { encrypt } from "../utils/encrypt";
 import env from "../config/env";
 import { and, eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
+import { lightFormat } from "date-fns";
 
 export const createSecureCookiePN = (pn: string) => {
   cookies().set({
@@ -54,19 +55,20 @@ export const getBooking = async ({
   return data;
 };
 
-export const getMyBookings = async ({
+export const getTodayAndFutureBookings = async ({
   phoneNumber,
   withPicture,
 }: {
   phoneNumber: string | undefined;
   withPicture?: boolean;
 }) => {
-  const pn = phoneNumber;
-  if (!pn) {
-    return [];
-  }
+  if (!phoneNumber) return [];
   const bookings = await db.query.bookings.findMany({
-    where: (bookings, { eq }) => eq(bookings.phoneNumber, pn),
+    where: (bookings, { eq, gte }) =>
+      and(
+        eq(bookings.phoneNumber, phoneNumber),
+        gte(bookings.selectedDate, lightFormat(new Date(), "yyyy-MM-dd"))
+      ),
     with: {
       handler: {
         columns: { displayName: true, id: true, profilePicture: withPicture },

@@ -3,7 +3,7 @@ import MyBookingsCard from "@/components/find-bookings/card";
 import CustomPhoneInput from "@/components/phone-input";
 import Loader from "@/components/svg/loader";
 import { Button } from "@/components/ui/button";
-import { getMyBookings } from "@/lib/actions/bookings";
+import { getTodayAndFutureBookings } from "@/lib/actions/bookings";
 import { SelectBookingsWithHandler } from "@/lib/types";
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -31,7 +31,7 @@ export default function ClientFindBookingsPage() {
   } = useForm<IPhoneForm>();
 
   const onSubmit: SubmitHandler<IPhoneForm> = async ({ phoneNumber: pn }) => {
-    const result = await getMyBookings({
+    const result = await getTodayAndFutureBookings({
       phoneNumber: pn,
       withPicture: true,
     });
