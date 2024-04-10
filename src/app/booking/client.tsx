@@ -60,7 +60,10 @@ function StaffSection({
   }[];
 }) {
   return (
-    <section className="space-y-6 bg-gradient-to-b from-gray-300 to-gray-50 dark:from-neutral-950 dark:to-neutral-700">
+    <section
+      id="staff"
+      className="space-y-6 bg-gradient-to-b from-gray-300 to-gray-50 dark:from-neutral-950 dark:to-neutral-800"
+    >
       <div className="max-w-screen-2xl mx-auto px-4 pt-24 space-y-8">
         <h3 className="text-3xl md:text-6xl font-bold max-w-3xl">
           Every one of our consultants is unique, but we are united by our
@@ -89,7 +92,7 @@ function ReviewsSection() {
   }, [api]);
 
   return (
-    <section className="bg-gray-50 dark:bg-neutral-700">
+    <section className="bg-gray-50 dark:bg-neutral-800">
       <div className="max-w-screen-2xl mx-auto px-4 py-16 md:py-24 space-y-12">
         <h3 className="text-3xl md:text-6xl font-bold capitalize">
           what our customers are saying
@@ -155,7 +158,10 @@ function ReviewsSection() {
 
 function FAQSection() {
   return (
-    <section className="bg-gradient-to-b from-gray-50 to-gray-300 dark:from-neutral-700 dark:to-neutral-900">
+    <section
+      id="faq"
+      className="bg-gradient-to-b from-gray-50 to-gray-300 dark:from-neutral-800 dark:to-neutral-900"
+    >
       <div className="max-w-screen-2xl mx-auto px-4 py-16 space-y-12">
         <h3 className="text-3xl md:text-6xl font-bold capitalize text-center max-w-2xl mx-auto">
           frequently asked questions

@@ -12,6 +12,7 @@ import { cookies } from "next/headers";
 import Link from "next/link";
 import React from "react";
 import { notFound } from "next/navigation";
+import BGGradient from "@/components/ui/bg-gradient";
 
 export const dynamicParams = true;
 
@@ -33,30 +34,33 @@ async function BookingPersonPage({ params }: { params: { id: string } }) {
     notFound();
   }
   return (
-    <div className="mx-auto max-w-lg space-y-8 min-h-[95dvh] grid place-items-center">
-      <Card>
-        <CardHeader>
-          <CardDescription>
-            <Link
-              href="/booking"
-              className="capitalize flex gap-2 items-center max-w-max"
-            >
-              <ArrowLeft /> back to bookings
-            </Link>
-          </CardDescription>
-          <h3 className="text-xl md:text-3xl font-bold">
-            Schedule a booking with {handler.displayName}
-          </h3>
-        </CardHeader>
-        <CardContent>
-          <BookingForm
-            handlerId={params.id}
-            handlerName={handler.displayName}
-            storedPhoneNumber={phoneNumber}
-          />
-        </CardContent>
-      </Card>
-    </div>
+    <>
+      <BGGradient />
+      <div className="mx-auto max-w-lg space-y-8 min-h-[95dvh] grid place-items-center">
+        <Card className="relative">
+          <CardHeader>
+            <CardDescription>
+              <Link
+                href="/booking"
+                className="capitalize flex gap-2 items-center max-w-max"
+              >
+                <ArrowLeft /> back to bookings
+              </Link>
+            </CardDescription>
+            <h3 className="text-xl md:text-3xl font-bold">
+              Schedule a booking with {handler.displayName}
+            </h3>
+          </CardHeader>
+          <CardContent>
+            <BookingForm
+              handlerId={params.id}
+              handlerName={handler.displayName}
+              storedPhoneNumber={phoneNumber}
+            />
+          </CardContent>
+        </Card>
+      </div>
+    </>
   );
 }
 
