@@ -14,6 +14,7 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
+import BGGradient from "@/components/ui/bg-gradient";
 
 interface IPhoneForm {
   phoneNumber: string;
@@ -42,7 +43,7 @@ export default function ClientFindBookingsPage() {
       <BGGradient />
       <div className="max-w-7xl mx-auto relative py-24 px-4 space-y-9 md:space-y-14">
         <h3 className="text-4xl md:text-6xl font-bold">Find your booking(s)</h3>
-        <div className="flex flex-col md:flex-row gap-4 lg:gap-20 items-start">
+        <div className="flex flex-col md:flex-row gap-4 lg:gap-20 md:items-start">
           <Card className="md:w-1/4">
             <CardHeader>
               <CardDescription>
@@ -75,12 +76,13 @@ export default function ClientFindBookingsPage() {
             </CardFooter>
           </Card>
           {currentBookings.length ? (
-            <div className="flex flex-wrap md:w-3/4">
+            <div className="md:flex md:flex-wrap md:w-3/4">
               {currentBookings.map((booking) => (
                 <MyBookingsCard
                   key={`booking-${booking.id}`}
                   booking={booking}
                   setCurrentBookings={setCurrentBookings}
+                  className="w-full md:w-1/2 lg:w-1/4 md:px-2 pb-4"
                 />
               ))}
             </div>
@@ -91,15 +93,6 @@ export default function ClientFindBookingsPage() {
           ) : null}
         </div>
       </div>
-    </div>
-  );
-}
-
-function BGGradient() {
-  return (
-    <div className="flex flex-col md:flex-row h-full w-full absolute inset-0">
-      <div className="md:w-[40%] h-[40%] md:h-auto bg-gradient-to-b md:bg-gradient-to-r from-gray-400 to-gray-200 dark:from-neutral-950 dark:to-neutral-700 " />
-      <div className="md:w-[60%] h-[60%] md:h-auto bg-gradient-to-b md:bg-gradient-to-r from-gray-200 to-gray-400 dark:from-neutral-700 dark:to-neutral-950" />
     </div>
   );
 }

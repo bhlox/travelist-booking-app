@@ -37,16 +37,17 @@ export const createBooking = async (booking: InsertBookings) => {
 // #TODO handler here a type of string & {}. figure out why. Probably because of it having a type of text???
 export const getBooking = async ({
   bookingId,
-  phoneNumber,
+  withPicture,
 }: {
   bookingId: string;
-  phoneNumber: string;
+  withPicture?: boolean;
 }) => {
   const data = await db.query.bookings.findFirst({
-    where: (bookings, { eq }) =>
-      and(eq(bookings.id, +bookingId), eq(bookings.phoneNumber, phoneNumber)),
+    where: (bookings, { eq }) => and(eq(bookings.id, +bookingId)),
     with: {
-      handler: { columns: { displayName: true, id: true } },
+      handler: {
+        columns: { displayName: true, id: true, profilePicture: withPicture },
+      },
     },
   });
 

@@ -131,9 +131,6 @@ function BookingForm({
           description={`${formattedDate} at ${selectedTime} under ${handlerName}`}
         />
       );
-      if (phoneNumber !== bookingToBeUpdated?.phoneNumber) {
-        createSecureCookiePN(phoneNumber);
-      }
       router.push(`/find-bookings/${bookingId}`);
     } else {
       const bookingId = await createBooking({

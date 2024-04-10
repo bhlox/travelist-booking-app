@@ -12,22 +12,28 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 import DeleteBookingBtn from "../bookings/form/delete-btn";
 import Image from "next/image";
-import { handlerProfileImageString } from "@/lib/utils/utils";
+import { cn, handlerProfileImageString } from "@/lib/utils/utils";
+import { lightFormat } from "date-fns";
 
 export default function MyBookingsCard({
-  booking,setCurrentBookings
+  booking,
+  setCurrentBookings,
+  className,
+  withOtherDetails,
 }: {
   booking: SelectBookingsWithHandler;
-  setCurrentBookings: React.Dispatch<
+  setCurrentBookings?: React.Dispatch<
     React.SetStateAction<SelectBookingsWithHandler[]>
   >;
+  className?: string;
+  withOtherDetails?: boolean;
 }) {
   const profPic = handlerProfileImageString(booking.handler.profilePicture!);
   return (
-    <div className="w-full md:w-1/2 lg:w-1/4 md:px-2 pb-4">
+    <div className={cn("w-full", className)}>
       <Card className="">
         <CardHeader className="p-0 relative">
-          <div className="relative h-64 w-full">
+          <div className="relative h-96 lg:h-64 w-full">
             <Image
               src={profPic}
               alt={booking.handler.displayName}
@@ -43,7 +49,7 @@ export default function MyBookingsCard({
         </CardHeader>
         <CardContent className="space-y-2">
           <CardTitle className="pt-2">{booking.handler.displayName}</CardTitle>
-          <div>
+          <div className={cn({ "grid grid-cols-2 gap-4": withOtherDetails })}>
             <p className="font-light text-sm">
               Scheduled Date: <br />
               <span className="font-medium text-base">
@@ -57,6 +63,34 @@ export default function MyBookingsCard({
                 {booking.selectedTime.slice(0, 5)}
               </span>
             </p>
+            {withOtherDetails && (
+              <>
+                <p className="font-light text-sm">
+                  Customer Name: <br />
+                  <span className="font-medium text-base">
+                    {booking.customerName}
+                  </span>
+                </p>
+                <p className="font-light text-sm">
+                  Customer Phone: <br />
+                  <span className="font-medium text-base">
+                    +{booking.phoneNumber}
+                  </span>
+                </p>
+                <p className="font-light text-sm">
+                  Booked at: <br />
+                  <span className="font-medium text-base">
+                    {lightFormat(booking.bookedAt, "dd/MM/yyyy HH:mm")}
+                  </span>
+                </p>
+                <p className="font-light text-sm">
+                  Status: <br />
+                  <span className="font-medium text-base">
+                    {booking.status}
+                  </span>
+                </p>
+              </>
+            )}
           </div>
         </CardContent>
         <CardFooter>

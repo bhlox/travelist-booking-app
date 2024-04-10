@@ -1,4 +1,6 @@
 import BookingForm from "@/components/bookings/form/form";
+import BGGradient from "@/components/ui/bg-gradient";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getBooking } from "@/lib/actions/bookings";
 import { getHandlers } from "@/lib/actions/handlers";
 import { decrypt } from "@/lib/utils/encrypt";
@@ -13,35 +15,38 @@ export default async function MyBookingEditPage({
     id: string;
   };
 }) {
-  let pn = cookies().get("pn")?.value;
-  if (pn) {
-    pn = decrypt(pn);
-  }
-  if (!pn) {
-    throw new Error("no phone found");
-  }
   try {
     const booking = await getBooking({
       bookingId: params.id,
-      phoneNumber: pn,
     });
     if (!booking) {
       throw new Error("no booking found");
     }
     const handlers = await getHandlers();
     return (
-      <>
-        <h2 className="text-center text-2xl md:text-4xl font-bold">
-          Edit your booking
-        </h2>
-        <BookingForm
-          handlerName={booking.handler.displayName}
-          handlerId={booking.handler.id}
-          storedPhoneNumber={booking.phoneNumber}
-          bookingToBeUpdated={booking}
-          handlers={handlers}
-        />
-      </>
+      <div className="relative min-h-[90dvh] grid place-items-center">
+        <BGGradient />
+        <div className="relative z-10">
+          <Card>
+            <CardHeader>
+              <CardTitle>
+                <h2 className="text-center text-2xl md:text-4xl font-bold">
+                  Edit your booking
+                </h2>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <BookingForm
+                handlerName={booking.handler.displayName}
+                handlerId={booking.handler.id}
+                storedPhoneNumber={booking.phoneNumber}
+                bookingToBeUpdated={booking}
+                handlers={handlers}
+              />
+            </CardContent>
+          </Card>
+        </div>
+      </div>
     );
   } catch (error) {
     console.log(error);

@@ -25,7 +25,7 @@ export default function DeleteBookingBtn({
 }: {
   booking: SelectBookingsWithHandler;
   className?: string;
-  setCurrentBookings: React.Dispatch<
+  setCurrentBookings?: React.Dispatch<
     React.SetStateAction<SelectBookingsWithHandler[]>
   >;
 }) {
@@ -34,7 +34,11 @@ export default function DeleteBookingBtn({
   const { mutate, isPending } = useMutation({
     mutationFn: () => deleteBooking({ bookingId: booking.id }),
     onSuccess: () => {
-      setCurrentBookings((prev) => prev.filter((b) => b.id !== booking.id));
+      if (setCurrentBookings) {
+        setCurrentBookings((prev) => prev.filter((b) => b.id !== booking.id));
+      } else {
+        router.replace("/find-bookings");
+      }
       toast.success(
         <>
           <h3>Booking Cancelled</h3>

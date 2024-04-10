@@ -31,7 +31,7 @@ function PersonList({
   );
 }
 
-function PersonCard({
+export function PersonCard({
   name,
   id,
   description,
