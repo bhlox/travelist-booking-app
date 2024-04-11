@@ -18,6 +18,7 @@ export const getHandler = async (id: string) => {
     columns: {
       id: true,
       displayName: true,
+      profilePicture: true,
     },
   });
 };

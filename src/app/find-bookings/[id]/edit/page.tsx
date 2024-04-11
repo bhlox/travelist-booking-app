@@ -4,9 +4,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getBooking } from "@/lib/actions/bookings";
 import { getHandlers } from "@/lib/actions/handlers";
 import { decrypt } from "@/lib/utils/encrypt";
+import { Metadata } from "next";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import React from "react";
+
+export const metadata: Metadata = {
+  title: "Travelist - Edit your booking",
+  description: "A key to a better travel",
+};
 
 export default async function MyBookingEditPage({
   params,

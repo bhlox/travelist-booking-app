@@ -6,6 +6,31 @@ import BGGradient from "@/components/ui/bg-gradient";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { FaArrowLeft } from "react-icons/fa6";
+import { Metadata } from "next";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { id: string };
+}): Promise<Metadata> {
+  const id = params.id;
+  try {
+    const booking = await getBooking({ bookingId: id });
+    if (!booking) throw new Error("booking not found");
+
+    return {
+      title: `Travelist - Booking of ${booking.customerName}`,
+      description: `Your booking details under ${booking.handler.displayName}`,
+    };
+  } catch (error) {
+    console.error("meta data error occured");
+    console.error(error);
+    return {
+      title: `Travelist`,
+      description: "Your booking details",
+    };
+  }
+}
 
 export default async function UpdateBookingPage({
   params,

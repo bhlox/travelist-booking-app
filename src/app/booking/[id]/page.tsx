@@ -13,6 +13,36 @@ import Link from "next/link";
 import React from "react";
 import { notFound } from "next/navigation";
 import BGGradient from "@/components/ui/bg-gradient";
+import { Metadata } from "next";
+import { handlerProfileImageString } from "@/lib/utils/utils";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { id: string };
+}): Promise<Metadata> {
+  const id = params.id;
+  try {
+    const handler = await getHandler(id);
+    if (!handler) throw new Error("handler not found");
+    const imageString = handlerProfileImageString(handler.profilePicture);
+
+    return {
+      title: `Travelist - Book with ${handler.displayName}`,
+      description: `Book your booking with ${handler.displayName}`,
+      openGraph: {
+        images: [imageString],
+      },
+    };
+  } catch (error) {
+    console.error("meta data error occured");
+    console.error(error);
+    return {
+      title: `Travelist`,
+      description: "booking",
+    };
+  }
+}
 
 export const dynamicParams = true;
 
