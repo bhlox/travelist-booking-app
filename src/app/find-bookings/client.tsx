@@ -57,6 +57,7 @@ export default function ClientFindBookingsPage() {
                   name="phoneNumber"
                   storedPhoneNumber={undefined}
                   errorMsg={formErrors.phoneNumber?.message}
+                  submitOnEnter={handleSubmit(onSubmit)}
                 />
                 {formErrors.phoneNumber?.message ? (
                   <p className="text-red-400 font-semibold">
