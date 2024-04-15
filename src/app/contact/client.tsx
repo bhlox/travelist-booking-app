@@ -4,7 +4,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -12,7 +11,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils/utils";
-import { Contact } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 import { useForm } from "react-hook-form";
@@ -21,7 +19,9 @@ import { SiMinutemailer } from "react-icons/si";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Textarea } from "@/components/ui/textarea";
-
+import { sendEmail } from "@/lib/actions/mail";
+import { toast } from "react-toastify";
+import Loader from "@/components/svg/loader";
 
 export default function ContactPageClient() {
   const [showForm, setShowForm] = React.useState(false);
@@ -127,9 +127,11 @@ function ContactForm() {
     resolver: zodResolver(contactSchema),
   });
 
-  function onSubmit(values: z.infer<typeof contactSchema>) {
-    console.log(values);
-  }
+  const onSubmit = async (values: z.infer<typeof contactSchema>) => {
+    await sendEmail(values);
+
+    toast.success("Email sent successfully");
+  };
   return (
     <div className="overflow-hidden mx-auto max-w-2xl w-full ">
       <Form {...form}>
@@ -174,7 +176,13 @@ function ContactForm() {
               </FormItem>
             )}
           />
-          <Button type="submit">Submit</Button>
+          <Button disabled={form.formState.isSubmitting} type="submit">
+            {form.formState.isSubmitting ? (
+              <Loader loadingWord="Sending" />
+            ) : (
+              "Submit"
+            )}
+          </Button>
         </form>
       </Form>
     </div>
