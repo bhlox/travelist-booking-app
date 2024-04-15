@@ -20,4 +20,3 @@ A dashboard has been created to manage customers and manage team member's schedu
 - Shadcn UI component library
 - Drizzle
 - Supabase storage and postgresql
-- Sendgrid
