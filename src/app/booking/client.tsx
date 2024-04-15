@@ -11,7 +11,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { reviewsData } from "@/lib/constants";
+import { FAQ_DATA, reviewsData } from "@/lib/constants";
 import {
   Card,
   CardContent,
@@ -128,7 +128,13 @@ function ReviewsSection() {
                       />
                     </svg>
                   </CardHeader>
-                  <CardContent className="">{data.review}</CardContent>
+                  <CardContent className="">
+                    <blockquote className="p-4 my-4 border-s-4 border-gray-200 bg-gray-100 dark:border-gray-500 dark:bg-neutral-900">
+                      <p className="text-xl italic font-medium leading-relaxed text-gray-900 dark:text-white">
+                        &quot;{data.review}&quot;
+                      </p>
+                    </blockquote>
+                  </CardContent>
                   <CardFooter>{data.name}</CardFooter>
                 </Card>
               </CarouselItem>
@@ -170,20 +176,15 @@ function FAQSection() {
           <Card>
             <CardContent>
               <Accordion type="single" collapsible>
-                <AccordionItem value="item-1">
-                  <AccordionTrigger>Is it accessible?</AccordionTrigger>
-                  <AccordionContent>
-                    Yes. It adheres to the WAI-ARIA design pattern.
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
-              <Accordion type="single" collapsible>
-                <AccordionItem value="item-1" className="border-b-0">
-                  <AccordionTrigger>Is it accessible?</AccordionTrigger>
-                  <AccordionContent>
-                    Yes. It adheres to the WAI-ARIA design pattern.
-                  </AccordionContent>
-                </AccordionItem>
+                {FAQ_DATA.map((data, ind) => (
+                  <AccordionItem
+                    key={`accordion-item-${ind}`}
+                    value={`item-${ind}`}
+                  >
+                    <AccordionTrigger>{data.question}</AccordionTrigger>
+                    <AccordionContent>{data.answer}</AccordionContent>
+                  </AccordionItem>
+                ))}
               </Accordion>
             </CardContent>
           </Card>
