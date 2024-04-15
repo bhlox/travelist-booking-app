@@ -180,8 +180,8 @@ function BookingForm({
     ],
     enabled: Boolean(inputSelectedDate),
     initialData: [],
-    queryFn: () => {
-      return getBookedTimes({
+    queryFn: async () => {
+      return await getBookedTimes({
         person: handlerIdFormValue!,
         date: lightFormat(inputSelectedDate!, "yyyy-MM-dd"),
       });
@@ -304,8 +304,10 @@ function BookingForm({
                 >
                   {field.value ? (
                     format(field.value, "PPP")
-                  ) : (
+                  ) : !isFetchingDisabledTimeSlots ? (
                     <span>Pick a date</span>
+                  ) : (
+                    <span>Loading...</span>
                   )}
                   <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                 </Button>

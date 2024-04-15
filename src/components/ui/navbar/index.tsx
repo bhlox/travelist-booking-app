@@ -14,6 +14,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { usePathname } from "next/navigation";
+import LogoSVG from "@/components/svg/logo";
 
 const ThemeToggler = dynamic(
   () => import("@/components/theme-toggler").then((mod) => mod.default),
@@ -75,7 +76,7 @@ function Navbar() {
             href="/"
             className="text-2xl font-bold"
           >
-            Logo
+            <LogoSVG />
           </Link>
           <Mobile
             handleToggleMenu={handleToggleMenu}
@@ -175,40 +176,36 @@ function MobileMenu({
 
 function Desktop() {
   const pathname = usePathname();
+  const otherPages = [
+    { href: "/find-bookings", title: "find booking" },
+    { href: "/contact", title: "contact" },
+  ];
   return (
     <>
       <ul className="items-center gap-6 hidden md:flex">
         <div className="flex items-center gap-16">
-          <li>
-            <Link
-              href="/find-bookings"
-              className={cn(
-                "text-sm capitalize text-gray-600 dark:text-gray-300 font-light",
-                null,
-                {
-                  "text-black dark:text-white text-lg font-normal":
-                    pathname === "/find-bookings",
-                }
-              )}
-            >
-              find booking
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/contact"
-              className={cn(
-                "text-sm capitalize text-gray-600 dark:text-gray-300 font-light",
-                null,
-                {
-                  "text-black dark:text-white text-lg font-normal":
-                    pathname === "/contact",
-                }
-              )}
-            >
-              contact
-            </Link>
-          </li>
+          {otherPages.map((page) => (
+            <li key={`desktop-pages-${page.title}`}>
+              <Link
+                href={page.href}
+                className={cn(
+                  "text-base capitalize text-black dark:text-white relative group",
+                  null,
+                  {
+                    "font-normal ": pathname === page.href,
+                  }
+                )}
+              >
+                {page.title}
+                <div
+                  className={cn(
+                    "absolute -bottom-2 -left-0 h-[1.5px] bg-black dark:bg-white w-0 group-hover:w-[110%] block transition-all duration-300 ease-in-out",
+                    { "w-[110%]": pathname === page.href }
+                  )}
+                />
+              </Link>
+            </li>
+          ))}
         </div>
         <li className="ml-12">
           <ThemeToggler />
@@ -216,11 +213,11 @@ function Desktop() {
         <li className="">
           <Link
             href="/booking"
-            className="flex items-center bg-blue-500 gap-1 px-4 py-2 cursor-pointer text-white font-semibold tracking-widest rounded-md hover:bg-blue-400 duration-300 hover:gap-2 hover:translate-x-3"
+            className="flex items-center bg-blue-500 gap-1 px-4 py-2 cursor-pointer text-white font-semibold tracking-widest rounded-md hover:bg-blue-400 duration-300 group w-full hover:w-[105%] transition-all ease-in-out"
           >
             Book now
             <svg
-              className="w-5 h-5"
+              className="w-5 h-5 group-hover:translate-x-2 transition-all duration-300 ease-in-out"
               stroke="currentColor"
               strokeWidth="1.5"
               viewBox="0 0 24 24"
