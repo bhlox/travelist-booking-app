@@ -52,8 +52,10 @@ export const blockedSchedules = pgTable("blocked_schedules", {
 	date: date("date").notNull(),
 	timeRanges: json("time_ranges"),
 	type: text("type").notNull(),
-	personnel: text("personnel").notNull().references(() => user.id),
+	handlerId: text("handlerID").notNull().references(() => user.id),
 	comment: text("comment"),
+	approved: boolean("approved").default(false).notNull(),
+	statusUpdatedBy: text("status_updated_by").references(() => user.id),
 });
 
 export const emailVerificationCodes = pgTable("email_verification_codes", {

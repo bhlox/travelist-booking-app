@@ -69,10 +69,12 @@ export const blockedSchedules = pgTable("blocked_schedules", {
   date: date("date").notNull(),
   timeRanges: json("time_ranges"),
   type: text("type").notNull(),
-  personnel: text("personnel")
+  handlerId: text("handlerID")
     .notNull()
     .references(() => user.id),
   comment: text("comment"),
+  approved: boolean("approved").default(false).notNull(),
+  statusUpdatedBy: text("status_updated_by").references(() => user.id),
 });
 
 export const emailVerificationCodes = pgTable("email_verification_codes", {
@@ -97,6 +99,23 @@ export const bookingsRelations = relations(bookings, ({ one }) => ({
   }),
 }));
 
+export const blockedSchedulesRelations = relations(
+  blockedSchedules,
+  ({ one }) => ({
+    approver: one(user, {
+      fields: [blockedSchedules.statusUpdatedBy],
+      references: [user.id],
+    }),
+    handler: one(user, {
+      fields: [blockedSchedules.handlerId],
+      references: [user.id],
+    }),
+  })
+);
+
 export const usersRelations = relations(user, ({ many }) => ({
   bookings: many(bookings),
+  sessions: many(session),
+  blockedSchedules: many(blockedSchedules),
+  emailVerificationCodes: many(emailVerificationCodes),
 }));
