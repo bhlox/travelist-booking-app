@@ -8,6 +8,7 @@ import { encrypt } from "../utils/encrypt";
 import env from "../config/env";
 import { and, eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
+import { lightFormat } from "date-fns";
 
 export const createSecureCookiePN = (pn: string) => {
   cookies().set({
@@ -29,23 +30,52 @@ export const createBooking = async (booking: InsertBookings) => {
   // if (!storedPN) {
   createSecureCookiePN(booking.phoneNumber);
   // }
-  revalidatePath("/my-bookings");
+  revalidatePath("/find-bookings");
   return bookingId;
   // return { bookingId, didCreateCookie: storedPN ? false : true };
 };
 
+// #TODO handler here a type of string & {}. figure out why. Probably because of it having a type of text???
 export const getBooking = async ({
   bookingId,
-  phoneNumber,
+  withPicture,
 }: {
   bookingId: string;
-  phoneNumber: string;
+  withPicture?: boolean;
 }) => {
   const data = await db.query.bookings.findFirst({
-    where: (bookings, { eq }) =>
-      and(eq(bookings.id, +bookingId), eq(bookings.phoneNumber, phoneNumber)),
+    where: (bookings, { eq }) => and(eq(bookings.id, +bookingId)),
+    with: {
+      handler: {
+        columns: { displayName: true, id: true, profilePicture: withPicture },
+      },
+    },
   });
+
   return data;
+};
+
+export const getTodayAndFutureBookings = async ({
+  phoneNumber,
+  withPicture,
+}: {
+  phoneNumber: string | undefined;
+  withPicture?: boolean;
+}) => {
+  if (!phoneNumber) return [];
+  const bookings = await db.query.bookings.findMany({
+    where: (bookings, { eq, gte }) =>
+      and(
+        eq(bookings.phoneNumber, phoneNumber),
+        gte(bookings.selectedDate, lightFormat(new Date(), "yyyy-MM-dd"))
+      ),
+    with: {
+      handler: {
+        columns: { displayName: true, id: true, profilePicture: withPicture },
+      },
+    },
+  });
+  return bookings.length ? bookings : [];
 };
 
 export const updateBooking = async ({
@@ -59,13 +89,13 @@ export const updateBooking = async ({
     .update(bookings)
     .set({ ...booking })
     .where(eq(bookings.id, +bookingId));
-  revalidatePath("/my-bookings");
-  revalidatePath(`/my-bookings/${bookingId}`);
+  revalidatePath("/find-bookings");
+  revalidatePath(`/find-bookings/${bookingId}`);
 };
 
 export const deleteBooking = async ({ bookingId }: { bookingId: number }) => {
   await db.delete(bookings).where(eq(bookings.id, bookingId));
-  revalidatePath("/my-bookings");
+  revalidatePath("/find-bookings");
 };
 
 export const getBookedTimes = async ({
@@ -77,26 +107,8 @@ export const getBookedTimes = async ({
 }) => {
   const bookings = await db.query.bookings.findMany({
     where: (bookings, { eq }) =>
-      and(eq(bookings.personInCharge, person), eq(bookings.selectedDate, date)),
-    columns: { selectedTime: true, selectedDate: true },
+      and(eq(bookings.handler, person), eq(bookings.selectedDate, date)),
+    columns: { selectedTime: true },
   });
-  const mappedData = bookings.map((item) =>
-    dayjs(`${item.selectedDate} ${item.selectedTime}`).toDate()
-  );
-  return mappedData;
-};
-
-export const getMyBookings = async ({
-  phoneNumber,
-}: {
-  phoneNumber: string | undefined;
-}) => {
-  const pn = phoneNumber;
-  if (!pn) {
-    return null;
-  }
-  const bookings = await db.query.bookings.findMany({
-    where: (bookings, { eq }) => eq(bookings.phoneNumber, pn),
-  });
-  return bookings.length ? bookings : null;
+  return bookings.map((booking) => booking.selectedTime.slice(0, 5));
 };

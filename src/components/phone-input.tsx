@@ -11,11 +11,13 @@ function CustomPhoneInput({
   name,
   storedPhoneNumber,
   errorMsg,
+  submitOnEnter,
 }: {
   control: Control<TODO>;
   name: "phoneNumber";
   storedPhoneNumber: string | undefined;
   errorMsg: string | undefined;
+  submitOnEnter?: Function;
 }) {
   return (
     <div className="flex flex-col gap-1">
@@ -36,6 +38,11 @@ function CustomPhoneInput({
         }}
         render={({ field }) => (
           <PhoneInput
+            onKeyDown={(e) => {
+              if (submitOnEnter && e.key === "Enter") {
+                submitOnEnter();
+              }
+            }}
             value={storedPhoneNumber}
             disableDropdown
             countryCodeEditable={false}
